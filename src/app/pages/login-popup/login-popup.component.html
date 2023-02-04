@@ -1,0 +1,12 @@
+<!-- <p>login-popup works!</p> -->
+<div *ngIf="isLogged" class="logged-info"></div>
+<div *ngIf="!isLogged && isChecked" class="login-popup">
+    <div>
+        <p class="action-title">You must login into WAX Cloud Wallet Testnet first</p>
+        <button class="btn-login" (click)="openLogin()">Login</button>
+        <p class="warning-text">Please keep this window open while you login</p>
+    </div>
+</div>
+<div class="loader" *ngIf="!isChecked">
+    <p>Loading data...</p>
+</div>

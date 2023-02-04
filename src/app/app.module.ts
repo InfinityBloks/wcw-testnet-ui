@@ -3,10 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginRegisterComponent } from './pages/login-register/login-register.component';
+import { LoginPopupComponent } from './pages/login-popup/login-popup.component';
+import { DummyWalletPageComponent } from './pages/dummy-wallet-page/dummy-wallet-page.component';
+import { SignTransactionComponent } from './pages/sign-transaction/sign-transaction.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginRegisterComponent,
+    LoginPopupComponent,
+    DummyWalletPageComponent,
+    SignTransactionComponent
   ],
   imports: [
     BrowserModule,
