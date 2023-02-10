@@ -1,12 +1,28 @@
-<!-- <p>login-popup works!</p> -->
-<div *ngIf="isLogged" class="logged-info"></div>
-<div *ngIf="!isLogged && isChecked" class="login-popup">
+<section *ngIf="isLogged" class="logged-info">
+    <div class="page-inner-container ">
+        <div class="authorize-read-name-container">
+            <h1>Transaction Request</h1>
+            <div class="origin-app">{{referrerUrl || 'Unknown URL'}}</div>
+            <div class="no-origin-app" *ngIf="!referrerUrl">It appears you're using browser or extension that prevents us from reading the
+                URL of the dApp you are interacting with. Since we cannot detect which dApp sent this request, we have
+                disabled whitelisting and you will need to approve the dApp's authorization for each request made.</div>
+            <div class="action-title">Wants you to approve the following :</div>
+            <div class="action-details text-bold"><span>Know your WAX Account Name.</span></div>
+            <div class="user-account-container">
+                <div class="user-account">{{loggedWalletInfo['wallet']}}</div>
+            </div>
+            <button type="button" class="btn-approve" (click)="approve()">Approve</button>
+            <button type="button" class="btn-deny" (click)="deny()">Deny</button>
+        </div>
+    </div>
+</section>
+<section *ngIf="!isLogged && isChecked" class="login-popup">
     <div>
         <p class="action-title">You must login into WAX Cloud Wallet Testnet first</p>
         <button class="btn-login" (click)="openLogin()">Login</button>
         <p class="warning-text">Please keep this window open while you login</p>
     </div>
-</div>
+</section>
 <div class="loader" *ngIf="!isChecked">
     <p>Loading data...</p>
 </div>

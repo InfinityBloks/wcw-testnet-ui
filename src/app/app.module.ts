@@ -7,6 +7,8 @@ import { LoginRegisterComponent } from './pages/login-register/login-register.co
 import { LoginPopupComponent } from './pages/login-popup/login-popup.component';
 import { DummyWalletPageComponent } from './pages/dummy-wallet-page/dummy-wallet-page.component';
 import { SignTransactionComponent } from './pages/sign-transaction/sign-transaction.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { SignTransactionComponent } from './pages/sign-transaction/sign-transact
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

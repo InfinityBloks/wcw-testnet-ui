@@ -24,7 +24,7 @@ const routes: Routes = [
     component: SignTransactionComponent,
   },
   {
-    path: 'dummy-wallet',
+    path: 'wallet',
     component: DummyWalletPageComponent
   },
   {

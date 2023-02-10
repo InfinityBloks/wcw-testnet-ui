@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { WCWTestnetApiService } from 'src/app/_services/wcw-testnet-api.service';
 
 @Component({
   selector: 'app-login-popup',
@@ -11,19 +12,19 @@ export class LoginPopupComponent implements OnInit {
   windowName: string = "";
   isLogged: boolean = false;
   isChecked: boolean = false;
-  loggedWalletInfo: {} = {};
+  loggedWalletInfo: { wallet?: string, token?: string } = {};
+  userInfo: any = {};
+  referrerUrl: string = "";
 
-  constructor() { }
+  constructor(
+    private _apiService: WCWTestnetApiService
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.windowName = window.name;
-    
+    this.referrerUrl = window.name ? document.referrer.replace('https://', '').replace('http://', '').split('/')[0] : '';
 
-    //TODO: check login session
-    setTimeout(() => {
-      this.isChecked = true;
-    }, 2000);
-    // console.log('window name', window.name);
+    await this.checkSession();
   }
 
 
@@ -31,23 +32,52 @@ export class LoginPopupComponent implements OnInit {
     window.open(window.location.origin, 'WAX Login', "height=800,width=600");
   }
 
-  
-  approve(): void {
-    if(window.opener){
-      window.opener.postMessage({ verified: true, userAccount: 'test.wamtn',
-        pubKeys: []}, '*');
+  async checkSession() {
+    this.isChecked = false;
+    const sessionInfo = await this._apiService.getSession();
+    if(sessionInfo['token']) {
+      this.isChecked = true;
+      this.isLogged = true;
+      this.loggedWalletInfo = sessionInfo;
+      const userInfo = await this._apiService.getUserInfo(sessionInfo['token']);
+      this.userInfo = {
+        verified: userInfo['verified'],
+        userAccount: userInfo['accountName'],
+        pubKeys: userInfo['publicKeys'],
+      }
     }
     else{
-      window.location.href = '/dummy-wallet';
+      this.isChecked = true;
+      this.isLogged = false;
     }
   }
 
-  reject(): void {
+  
+  approve(): void {
     if(window.opener){
-      window.opener.postMessage({ verified: false }, '*');
+      window.opener.postMessage(this.userInfo, '*');
+      window.close();
     }
     else{
-      window.location.href = '/dummy-wallet';
+      window.location.href = '/wallet';
+    }
+  }
+
+  deny(): void {
+    if(window.opener){
+      window.opener.postMessage({ verified: false }, '*');
+      window.close();
+    }
+    else{
+      window.location.href = '/wallet';
+    }
+  }
+
+  @HostListener('window:message', ['$event'])
+  async onMessage(data: any) {
+    const { data: msg_data } = data;
+    if(msg_data['is_logged']) {
+      await this.checkSession();
     }
   }
 

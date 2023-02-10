@@ -1,1 +1,54 @@
-<p>sign-transaction works!</p>
+<div class="sign-info" *ngIf="isChecked && isLogged">
+    <div class="page-inner-container">
+        <div class="authorize-transaction-container">
+            <h1 class="text-bold">Transaction Request</h1>
+            <div class="origin-app text-bold text-2rem"><span>{{referrerUrl || 'Unknown URL'}}</span></div>
+            <div class="no-origin-app" *ngIf="!referrerUrl">It appears you're using browser or extension that prevents
+                us from reading the URL of the dApp you are interacting with. Since we cannot detect which dApp sent
+                this request, we have disabled whitelisting and you will need to approve the dApp's authorization for
+                each request made.</div>
+            <div class="action-title">
+                <div>wants you to approve the following:</div>
+            </div>
+            <div class="simple-action-details">
+                <div>
+                    <div class="simple-action">
+                        <div class="text-2rem" *ngFor="let action of parsedActions">Call smart contract function
+                            <strong>{{action[0]}}</strong> &gt;
+                            <strong>{{action[1]}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="enable-advanced">Show Details</div> -->
+            </div>
+            <span *ngIf="isShowError" class="error-msg">{{errorMsg}}</span>
+            <!-- <div class="remember"><label class="MuiFormControlLabel-root"
+                    style="margin-right: 0px; font-size: 14px;"><span
+                        class="MuiButtonBase-root MuiIconButton-root jss3 MuiCheckbox-root jss1"
+                        aria-disabled="false"><span class="MuiIconButton-label"><input class="jss6" type="checkbox"
+                                data-indeterminate="false" value="remember"><svg class="MuiSvgIcon-root"
+                                focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
+                                </path>
+                            </svg></span><span class="MuiTouchRipple-root"></span></span><span
+                        class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1">Always sign those
+                        transactions on my behalf for wax.bloks.io</span></label></div> -->
+            <button type="button" class="btn-approve" (click)="approve()">Approve
+            </button>
+            <button type="button" class="btn-deny" (click)="deny()">Deny</button>
+        </div>
+    </div>
+</div>
+<section *ngIf="!isLogged && isChecked" class="session-expire">
+    <div>
+        <div class="error-container">
+            <div class="error-title">Session Expired</div>
+            <div class="error-sub-title">Your session has expired. Please login again.</div>
+            <button type="button" class="btn-login-2" (click)="openLoginPage()">Login</button>
+        </div>
+    </div>
+</section>
+<div class="loader" *ngIf="!isChecked">
+    <p>Loading data...</p>
+</div>

@@ -1,0 +1,31 @@
+.wallet-page {
+    flex-flow: row wrap;
+    display: flex;
+    max-width: 788px;
+    width: 90%;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #000;
+    border-radius: 12px;
+    background-color: #308194;
+    margin: 20px auto auto auto;
+    padding: 20px;
+    box-sizing: border-box;
+    
+    * {
+        color: #fff;
+    }
+
+    a {
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    .logout-btn {
+        text-decoration: underline;
+        color: rgb(145, 2, 2);
+        font-weight: bold;
+        font-style: italic;
+        cursor: pointer;
+    }
+}

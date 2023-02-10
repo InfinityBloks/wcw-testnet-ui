@@ -1,1 +1,27 @@
-<p>login-register works!</p>
+<section class="form-section" *ngIf="mode">
+    <div class="form-container">
+        <div class="title-1">Simple. Instant. Secure. Global.</div>
+        <div class="title-2">Create a new wallet in a few clicks.</div>
+        <div class="btn-container">
+            <input type="text" [(ngModel)]="wallet" [placeholder]="mode == 'login' ? 'Wallet' : 'Wallet (a-z 1-5 or .)'"
+                class="form-input" [maxlength]="mode == 'login' ? 12 : 6" />
+            <p class="wallet-suffix" *ngIf="mode == 'register' && wallet"><span>{{wallet}}</span>{{walletSuffix}}</p>
+            <input type="password" [(ngModel)]="password" placeholder="Password" class="form-input" />
+            <input type="password" [(ngModel)]="repassword" placeholder="Reenter Password" *ngIf="mode != 'login'"
+                class="form-input" />
+            <div class="error-container" *ngIf="errorMsg">
+                <ul>
+                    <li>{{errorMsg}}</li>
+                </ul>
+            </div>
+            <button (click)="doLoginRegister()" class="form-btn"
+                [disabled]="!wallet || !password || (mode == 'register' && !repassword)">{{mode == 'login' ? 'Login' :
+                'Sign Up'}}</button>
+            <p *ngIf="mode == 'login'" (click)="toogleForm('register')" class="link-text">Sign Up For Account</p>
+            <p *ngIf="mode != 'login'" (click)="toogleForm('login')" class="link-text">Have An Account? Login.</p>
+        </div>
+    </div>
+</section>
+<div class="loader" *ngIf="!mode">
+    <p>Loading data...</p>
+</div>

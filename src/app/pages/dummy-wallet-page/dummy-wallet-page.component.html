@@ -1,1 +1,10 @@
-<p>dummy-wallet-page works!</p>
+<div class="wallet-page" *ngIf="isChecked && isLogged">
+    <p>Hello <strong><i>{{loggedWallet}}</i></strong></p>
+    <p>You have logged in successfully to WCW Testnet</p>
+    <p>You can <span class="logout-btn" (click)="logout()">logout here</span></p>
+    <p>Test login and sign transaction at <a href="https://demo.waxtest.net" target="_self">demo page</a></p>
+</div>
+
+<div class="loader" *ngIf="!isChecked">
+    <p>Loading data...</p>
+</div>
